@@ -8,12 +8,12 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import products from "../data/products";
+import { useAppSelector } from "../redux/hooks";
 
 const ProductDetailsScreen = () => {
-  const product = products[0];
-
   const { width } = useWindowDimensions();
+
+  const product = useAppSelector((state) => state.products.selectedProduct);
 
   const addToCart = () => {
     console.warn("add to cart");
@@ -24,7 +24,7 @@ const ProductDetailsScreen = () => {
       {/* Image Carousel */}
       <ScrollView>
         <FlatList
-          data={product.images}
+          data={product?.images}
           renderItem={({ item }) => (
             <Image source={{ uri: item }} style={{ width, aspectRatio: 1 }} />
           )}
@@ -35,13 +35,13 @@ const ProductDetailsScreen = () => {
 
         <View style={{ padding: 20 }}>
           {/* Title */}
-          <Text style={styles.title}>{product.name}</Text>
+          <Text style={styles.title}>{product?.name}</Text>
 
           {/* Price */}
-          <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.price}>${product?.price}</Text>
 
           {/* Description */}
-          <Text style={styles.description}>{product.description}</Text>
+          <Text style={styles.description}>{product?.description}</Text>
         </View>
       </ScrollView>
 

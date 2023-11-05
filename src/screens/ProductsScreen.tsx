@@ -1,8 +1,9 @@
 import { Image, StyleSheet, FlatList, Pressable } from "react-native";
-import products from "../data/products";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../components/Navigation";
 import { useNavigation } from "@react-navigation/native";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { setSelectedProduct } from "../redux/features/productSlice";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Products">;
 
@@ -12,13 +13,19 @@ const ProductsScreen = () => {
   // in a component that is not part of navigation stack
   const navigation = useNavigation<Props["navigation"]>();
 
+  const dispatch = useAppDispatch();
+  const products = useAppSelector((state) => state.products.products);
+
   return (
     <FlatList
       data={products}
       renderItem={({ item }) => (
         <Pressable
           style={styles.itemContainer}
-          onPress={() => navigation.navigate("Product Details")}
+          onPress={() => {
+            dispatch(setSelectedProduct(item.id));
+            navigation.navigate("Product Details");
+          }}
         >
           <Image
             source={{
