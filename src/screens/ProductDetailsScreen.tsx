@@ -8,15 +8,17 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { useAppSelector } from "../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { addToCart } from "../redux/features/cartSlice";
 
 const ProductDetailsScreen = () => {
   const { width } = useWindowDimensions();
 
+  const dispatch = useAppDispatch();
   const product = useAppSelector((state) => state.products.selectedProduct);
 
-  const addToCart = () => {
-    console.warn("add to cart");
+  const handlePress = () => {
+    dispatch(addToCart(product));
   };
 
   return (
@@ -46,7 +48,7 @@ const ProductDetailsScreen = () => {
       </ScrollView>
 
       {/* Add to cart button */}
-      <Pressable style={styles.button} onPress={addToCart}>
+      <Pressable style={styles.button} onPress={handlePress}>
         <Text style={styles.buttonText}>Add to cart</Text>
       </Pressable>
 
